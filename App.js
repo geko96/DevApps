@@ -1,11 +1,4 @@
-import {
-  StyleSheet,
-  Text,
-  View,
-  TextInput,
-  Pressable,
-  Image,
-} from "react-native";
+import {  StyleSheet,  Text,  View,  TextInput,  Pressable,  Image,} from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 
 export default function App() {
