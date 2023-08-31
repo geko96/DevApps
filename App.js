@@ -1,7 +1,41 @@
-import {  StyleSheet,  Text,  View,  TextInput,  Pressable,  Image,} from "react-native";
+import {  StyleSheet,  Text,  View,  TextInput,  Pressable,  Image, FlatList,} from "react-native";
 import { Ionicons } from "@expo/vector-icons";
+import React, { useState } from "react";
+
+import Boton from "./src/boton";
 
 export default function App() {
+
+  const [texto, setTexto] = React.useState('');
+
+  const [products, setProducts] = useState([])
+
+
+  function productAdd (product) {
+
+    let theProduct = {
+      "name": product,
+      "id": products.length
+    }
+
+    products.push(theProduct)
+
+    setProducts(products)
+
+    console.log(products)
+    setTexto("")
+
+  }
+
+
+  function deleteProduct (productId) {
+    setProducts([])
+    return;
+    const updatedProducts = products.filter(product => product.id !== productId);
+    setProducts(updatedProducts);
+
+  };
+
   return (
     <View style={styles.contenedor}>
       
@@ -9,24 +43,39 @@ export default function App() {
 
       <View style={styles.buttonContainer}>
         <View style={styles.inputContainer}>
-          <TextInput placeholder="Escriba aquí..." style={styles.input} />
+          <TextInput
+            style={styles.input}
+            onChangeText={(e)=>{
+              setTexto(e)
+              console.log(texto)
+
+            }}
+            value={texto}
+          />
         </View>
 
         <Pressable
           style={styles.button}
-          onPress={() => alert('Producto Agregado!')}
+          onPress={() => productAdd(texto)}
         >
           <Ionicons name="add-circle-outline" size={40} color="green" />
         </Pressable>
       </View>
       <View>
-        <Text style={styles.list}>PS5</Text>
+        <Boton nombre={"Eliminar"} /> 
 
-        <Text style={styles.list}>TV 55 8k</Text>
-
-        <Text style={styles.list}>PC Xeon x12 </Text>
-
-        <Text style={styles.list}>Internet Buenisimo </Text>
+        <Boton nombre={"agregar producto"} />
+        <FlatList
+          data={products}
+          renderItem={({item}) => <Text style={styles.list} >{item.name}</Text>}
+          // <Campanitas data={producto}>
+          // Titulo
+          // Foto o mensaje
+          // Elemnto de edicion
+          //</Campanitas>
+          keyExtractor={item => item.id}
+        />
+        
 
 
       </View>
@@ -75,4 +124,9 @@ const styles = StyleSheet.create({
     borderRadius: 50,
     backgroundColor: "orange"
   },
+  button2: {
+    marginTop: 15,
+    marginLeft: 125,
+
+  }
 });
